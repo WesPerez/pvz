@@ -2,12 +2,10 @@
 
 import {
   Sparkle,
-  ArrowRight,
   Heart,
   Sun,
   PaintBrush,
   BookOpen,
-  GameController,
   GithubLogo,
   TwitterLogo,
   Rss,
@@ -15,11 +13,14 @@ import {
   Minus,
 } from "@phosphor-icons/react";
 import { TerminalTypewriter } from "@/components/TerminalTypewriter";
+import { CatTranslator } from "@/components/CatTranslator";
+import { DreamPainter } from "@/components/DreamPainter";
+import { MelodySpirit } from "@/components/MelodySpirit";
+import { PoemHelper } from "@/components/PoemHelper";
 import {
   RevealOnScroll,
   StaggerContainer,
   StaggerItem,
-  HoverGlow,
   CountUp,
   ParallaxFloat,
 } from "@/components/Animations";
@@ -36,10 +37,10 @@ function Nav() {
         <span className="font-bold text-base">AI 小世界</span>
       </div>
       <div className="hidden md:flex items-center gap-6 text-sm text-muted">
-        <a href="#play" className="hover:text-accent-deep transition-colors">玩一玩</a>
-        <a href="#friends" className="hover:text-accent-deep transition-colors">小伙伴</a>
-        <a href="#gallery" className="hover:text-accent-deep transition-colors">画廊</a>
-        <a href="#stories" className="hover:text-accent-deep transition-colors">故事</a>
+        <a href="#cat" className="hover:text-accent-deep transition-colors">🐱 猫咪翻译</a>
+        <a href="#dream" className="hover:text-accent-deep transition-colors">🎨 梦境画师</a>
+        <a href="#melody" className="hover:text-accent-deep transition-colors">🎵 旋律精灵</a>
+        <a href="#poem" className="hover:text-accent-deep transition-colors">📝 诗歌助手</a>
       </div>
     </nav>
   );
@@ -49,14 +50,13 @@ function Nav() {
 function Hero() {
   return (
     <section className="relative pt-14 overflow-hidden sky-gradient">
-      <div className="absolute top-16 left-[5%] cloud-shape w-40 h-12 opacity-70 animate-cloud" />
-      <div className="absolute top-28 right-[8%] cloud-shape w-56 h-14 opacity-50 animate-cloud" style={{ animationDelay: "5s" }} />
-      <div className="absolute top-44 left-[30%] cloud-shape w-32 h-10 opacity-40 animate-cloud" style={{ animationDelay: "10s" }} />
-
-      <ParallaxFloat className="absolute top-24 right-[15%] text-4xl opacity-70 pointer-events-none hidden md:block" offset={12}>☁️</ParallaxFloat>
-      <ParallaxFloat className="absolute top-40 left-[10%] text-3xl opacity-60 pointer-events-none hidden md:block" offset={8}>🦋</ParallaxFloat>
-      <ParallaxFloat className="absolute bottom-32 right-[10%] text-4xl opacity-60 pointer-events-none hidden md:block" offset={15}>🌈</ParallaxFloat>
-      <ParallaxFloat className="absolute bottom-48 left-[20%] text-3xl opacity-50 pointer-events-none hidden md:block" offset={10}>🌸</ParallaxFloat>
+      {/* Only emoji decorations, no white cloud shapes */}
+      <ParallaxFloat className="absolute top-24 right-[15%] text-5xl opacity-70 pointer-events-none hidden md:block" offset={12}>☁️</ParallaxFloat>
+      <ParallaxFloat className="absolute top-40 left-[10%] text-4xl opacity-60 pointer-events-none hidden md:block" offset={8}>🦋</ParallaxFloat>
+      <ParallaxFloat className="absolute bottom-32 right-[10%] text-5xl opacity-60 pointer-events-none hidden md:block" offset={15}>🌈</ParallaxFloat>
+      <ParallaxFloat className="absolute bottom-48 left-[20%] text-4xl opacity-50 pointer-events-none hidden md:block" offset={10}>🌸</ParallaxFloat>
+      <ParallaxFloat className="absolute top-32 left-[25%] text-3xl opacity-40 pointer-events-none hidden md:block" offset={14}>⭐</ParallaxFloat>
+      <ParallaxFloat className="absolute top-16 right-[30%] text-3xl opacity-50 pointer-events-none hidden md:block" offset={9}>🕊️</ParallaxFloat>
 
       <div className="relative z-10 max-w-3xl mx-auto text-center px-6 pt-20 pb-16 flex flex-col items-center gap-6">
         <div className="badge badge-blue">
@@ -77,10 +77,10 @@ function Hero() {
         <TerminalTypewriter />
 
         <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
-          <span className="badge badge-cute">🐱 猫咪翻译官</span>
-          <span className="badge badge-mint">🎨 梦境画师</span>
-          <span className="badge badge-warm">🎵 旋律精灵</span>
-          <span className="badge badge-lavender">📝 诗歌小助手</span>
+          <a href="#cat" className="badge badge-cute hover:scale-105 transition-transform cursor-pointer">🐱 猫咪翻译官</a>
+          <a href="#dream" className="badge badge-mint hover:scale-105 transition-transform cursor-pointer">🎨 梦境画师</a>
+          <a href="#melody" className="badge badge-warm hover:scale-105 transition-transform cursor-pointer">🎵 旋律精灵</a>
+          <a href="#poem" className="badge badge-lavender hover:scale-105 transition-transform cursor-pointer">📝 诗歌小助手</a>
         </div>
       </div>
 
@@ -90,18 +90,37 @@ function Hero() {
 }
 
 /* ═══ MARQUEE ═══ */
+const MARQUEE_ITEMS = [
+  { emoji: "🎨", text: "AI 画画", color: "#f472b6" },
+  { emoji: "🐱", text: "猫语翻译", color: "#fb923c" },
+  { emoji: "🎵", text: "作曲助手", color: "#34d399" },
+  { emoji: "📝", text: "写诗机器人", color: "#a78bfa" },
+  { emoji: "🌈", text: "梦境生成", color: "#38bdf8" },
+  { emoji: "🧩", text: "脑筋急转弯", color: "#f472b6" },
+  { emoji: "🌻", text: "植物取名", color: "#fb923c" },
+  { emoji: "🔮", text: "每日运势", color: "#a78bfa" },
+  { emoji: "📖", text: "故事接龙", color: "#34d399" },
+  { emoji: "🌙", text: "晚安故事", color: "#38bdf8" },
+  { emoji: "🍕", text: "美食推荐", color: "#fb923c" },
+  { emoji: "🦋", text: "蝴蝶图鉴", color: "#f472b6" },
+];
+
 function Marquee() {
-  const items = [
-    "🎨 AI 画画", "🐱 猫语翻译", "🎵 作曲助手", "📝 写诗机器人", "🌈 梦境生成",
-    "🧩 脑筋急转弯", "🌻 植物取名", "🔮 每日运势", "📖 故事接龙", "🎮 文字冒险",
-    "🌙 晚安故事", "🍕 美食推荐", "🎭 表情包生成", "🦋 蝴蝶图鉴", "☁️ 云朵分类",
-  ];
   return (
-    <div className="py-5 bg-surface-blue border-y border-border-light overflow-hidden">
+    <div className="py-4 bg-surface-blue border-y border-border-light overflow-hidden">
       <div className="flex animate-marquee" style={{ width: "max-content" }}>
-        {[...items, ...items, ...items].map((t, i) => (
-          <div key={i} className="px-6 text-lg whitespace-nowrap hover:scale-110 transition-transform cursor-default text-foreground/70">
-            {t}
+        {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+          <div
+            key={i}
+            className="mx-2 px-4 py-2 rounded-full whitespace-nowrap hover:scale-110 transition-transform cursor-default flex items-center gap-1.5 text-sm font-medium"
+            style={{
+              backgroundColor: `${item.color}15`,
+              border: `1px solid ${item.color}30`,
+              color: item.color,
+            }}
+          >
+            <span>{item.emoji}</span>
+            <span>{item.text}</span>
           </div>
         ))}
       </div>
@@ -109,96 +128,82 @@ function Marquee() {
   );
 }
 
-/* ═══ PLAYGROUND ═══ */
-const PLAY_ITEMS = [
-  {
-    emoji: "🎨",
-    title: "AI 画一幅画",
-    desc: "告诉它你梦到了什么，它帮你画出来。画风从水彩到像素，随你挑。",
-    badge: "热门",
-    badgeClass: "badge-cute",
-    borderColor: "#f472b6",
-    bgColor: "rgba(244,114,182,0.06)",
-  },
-  {
-    emoji: "🐱",
-    title: "猫咪心情翻译",
-    desc: "上传你家猫的照片，AI 告诉你它此刻在想什么。准确率……大概比你自己猜高一点。",
-    badge: "可爱",
-    badgeClass: "badge-warm",
-    borderColor: "#fb923c",
-    bgColor: "rgba(251,146,60,0.06)",
-  },
-  {
-    emoji: "🎵",
-    title: "哼一段旋律",
-    desc: "随便哼几秒，AI 帮你补完整首歌。风格可选：爵士、古风、电子、或者「随便」。",
-    badge: "新功能",
-    badgeClass: "badge-mint",
-    borderColor: "#34d399",
-    bgColor: "rgba(52,211,153,0.06)",
-  },
-  {
-    emoji: "📝",
-    title: "写一首小诗",
-    desc: "给它一个词，它还你一首诗。可以是现代诗、古诗、俳句，甚至打油诗。",
-    badge: "文艺",
-    badgeClass: "badge-lavender",
-    borderColor: "#a78bfa",
-    bgColor: "rgba(167,139,250,0.06)",
-  },
-  {
-    emoji: "🔮",
-    title: "今日小运势",
-    desc: "AI 根据你的心情和天气，给你一句温暖又神秘的小建议。仅供娱乐哦~",
-    badge: "玄学",
-    badgeClass: "badge-blue",
-    borderColor: "#38bdf8",
-    bgColor: "rgba(56,189,248,0.06)",
-  },
-  {
-    emoji: "🧩",
-    title: "脑筋急转弯",
-    desc: "AI 出题你来猜，或者你出题 AI 来猜。看谁先笑场。",
-    badge: "互动",
-    badgeClass: "badge-cute",
-    borderColor: "#f472b6",
-    bgColor: "rgba(244,114,182,0.06)",
-  },
-];
-
-function Playground() {
+/* ═══ FEATURE SECTIONS ═══ */
+function CatSection() {
   return (
-    <section id="play" className="px-6 md:px-10 py-16 md:py-24 bg-surface">
-      <div className="max-w-6xl mx-auto">
-        <RevealOnScroll className="mb-10">
+    <section id="cat" className="px-6 md:px-10 py-16 md:py-24 bg-surface">
+      <div className="max-w-4xl mx-auto">
+        <RevealOnScroll className="mb-8">
           <div className="flex items-center gap-2 mb-3">
-            <GameController className="text-accent text-lg" weight="duotone" />
-            <span className="text-xs font-mono text-accent tracking-wider">PLAYGROUND</span>
+            <span className="text-2xl">🐱</span>
+            <span className="text-xs font-mono text-accent-warm tracking-wider">CAT TRANSLATOR</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            来和 AI <span className="text-gradient-sky">玩一玩</span>
+            猫咪<span className="text-gradient-cute">翻译官</span>
           </h2>
-          <p className="text-muted mt-2 text-sm">点开任意一个，和 AI 小伙伴聊聊天。</p>
+          <p className="text-muted mt-2 text-sm">选择你家猫咪的行为，让 AI 帮你翻译它在想什么~</p>
         </RevealOnScroll>
+        <CatTranslator />
+      </div>
+    </section>
+  );
+}
 
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {PLAY_ITEMS.map((item) => (
-            <StaggerItem key={item.title}>
-              <div
-                className="card-colored p-6 h-full flex flex-col gap-3"
-                style={{ borderColor: item.borderColor, backgroundColor: item.bgColor }}
-              >
-                <div className="flex items-start justify-between">
-                  <span className="text-4xl animate-bounce-soft">{item.emoji}</span>
-                  <span className={`badge ${item.badgeClass}`}>{item.badge}</span>
-                </div>
-                <h3 className="text-lg font-semibold">{item.title}</h3>
-                <p className="text-sm text-muted leading-relaxed">{item.desc}</p>
-              </div>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+function DreamSection() {
+  return (
+    <section id="dream" className="px-6 md:px-10 py-16 md:py-24 bg-surface-blue">
+      <div className="max-w-4xl mx-auto">
+        <RevealOnScroll className="mb-8">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-2xl">🎨</span>
+            <span className="text-xs font-mono text-accent-cute tracking-wider">DREAM PAINTER</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            梦境<span className="text-gradient-sky">画师</span>
+          </h2>
+          <p className="text-muted mt-2 text-sm">描述你的梦，AI 帮你画出来。多种画风任你挑选~</p>
+        </RevealOnScroll>
+        <DreamPainter />
+      </div>
+    </section>
+  );
+}
+
+function MelodySection() {
+  return (
+    <section id="melody" className="px-6 md:px-10 py-16 md:py-24 bg-surface">
+      <div className="max-w-4xl mx-auto">
+        <RevealOnScroll className="mb-8">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-2xl">🎵</span>
+            <span className="text-xs font-mono text-accent-mint tracking-wider">MELODY SPIRIT</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            旋律<span className="text-gradient-cute">精灵</span>
+          </h2>
+          <p className="text-muted mt-2 text-sm">选择心情和节奏，AI 为你谱写一段专属旋律~</p>
+        </RevealOnScroll>
+        <MelodySpirit />
+      </div>
+    </section>
+  );
+}
+
+function PoemSection() {
+  return (
+    <section id="poem" className="px-6 md:px-10 py-16 md:py-24 bg-surface-blue">
+      <div className="max-w-4xl mx-auto">
+        <RevealOnScroll className="mb-8">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-2xl">📝</span>
+            <span className="text-xs font-mono text-accent-lavender tracking-wider">POEM HELPER</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            诗歌<span className="text-gradient-sky">小助手</span>
+          </h2>
+          <p className="text-muted mt-2 text-sm">给一个词，AI 还你一首诗。现代诗、古风、俳句随你选~</p>
+        </RevealOnScroll>
+        <PoemHelper />
       </div>
     </section>
   );
@@ -220,7 +225,7 @@ const FRIENDS = [
 
 function AIFriends() {
   return (
-    <section id="friends" className="px-6 md:px-10 py-16 md:py-24 bg-surface-blue">
+    <section id="friends" className="px-6 md:px-10 py-16 md:py-24 bg-surface">
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll className="mb-10 text-center">
           <div className="flex items-center justify-center gap-2 mb-3">
@@ -230,7 +235,6 @@ function AIFriends() {
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             认识一下<span className="text-gradient-cute"> AI 小伙伴</span>
           </h2>
-          <p className="text-muted mt-2 text-sm">它们每个都有自己独特的性格和技能，来交个朋友吧~</p>
         </RevealOnScroll>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
@@ -253,140 +257,6 @@ function AIFriends() {
   );
 }
 
-/* ═══ ART GALLERY ═══ */
-const ARTS = [
-  { prompt: "a cute penguin painting watercolor on an iceberg, pastel colors, children book illustration style, soft and warm", title: "企鹅画水彩", tag: "水彩" },
-  { prompt: "a magical garden with glowing flowers and tiny fairies, Studio Ghibli style, dreamy atmosphere, soft blue and pink", title: "精灵花园", tag: "吉卜力" },
-  { prompt: "a cozy cat cafe with sleeping cats on every surface, warm lighting, kawaii illustration, pastel palette", title: "猫咪咖啡馆", tag: "卡哇伊" },
-  { prompt: "a tiny astronaut riding a cloud through a starry sky, watercolor illustration, children fantasy art, gentle blue tones", title: "云上宇航员", tag: "幻想" },
-];
-
-function ArtGallery() {
-  return (
-    <section id="gallery" className="px-6 md:px-10 py-16 md:py-24 bg-surface">
-      <div className="max-w-6xl mx-auto">
-        <RevealOnScroll className="mb-10">
-          <div className="flex items-center gap-2 mb-3">
-            <PaintBrush className="text-accent-lavender text-lg" weight="duotone" />
-            <span className="text-xs font-mono text-accent-lavender tracking-wider">GALLERY</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            AI 画的<span className="text-gradient-sky">小画展</span>
-          </h2>
-          <p className="text-muted mt-2 text-sm">这些是 AI 小伙伴们闲暇时画的画，每一幅都带着它们的小心情。</p>
-        </RevealOnScroll>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {ARTS.map((art, i) => (
-            <RevealOnScroll key={i}>
-              <div className="card-cute overflow-hidden group">
-                <div className="aspect-[16/10] overflow-hidden relative">
-                  <img
-                    src={`https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(art.prompt)}&image_size=landscape_4_3`}
-                    alt={art.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    loading="lazy"
-                  />
-                  <div className="absolute top-3 right-3 badge badge-blue bg-white/80 backdrop-blur-sm">
-                    {art.tag}
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-semibold mb-1">《{art.title}》</h3>
-                  <p className="text-xs text-muted font-mono">by AI 小伙伴 ✦</p>
-                </div>
-              </div>
-            </RevealOnScroll>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ═══ DAILY AI ═══ */
-const DAILY = [
-  { emoji: "🌅", title: "早安问候", desc: "AI 每天早上给你发一句温暖的话，开启元气满满的一天。", time: "7:00 AM" },
-  { emoji: "☕", title: "午间小憩", desc: "中午推荐一首轻音乐，配上一段 AI 写的微小说。", time: "12:30 PM" },
-  { emoji: "🌙", title: "晚安故事", desc: "睡前让 AI 给你讲一个温柔的小故事，祝你做个好梦。", time: "10:00 PM" },
-];
-
-function DailyAI() {
-  return (
-    <section className="px-6 md:px-10 py-16 md:py-24 bg-surface-deep">
-      <div className="max-w-4xl mx-auto">
-        <RevealOnScroll className="mb-10 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <Sun className="text-accent-warm text-lg" weight="duotone" />
-            <span className="text-xs font-mono text-accent-warm tracking-wider">DAILY COMPANION</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            AI 的<span className="text-gradient-cute">一日陪伴</span>
-          </h2>
-          <p className="text-muted mt-2 text-sm">从早到晚，AI 小伙伴都在你身边。</p>
-        </RevealOnScroll>
-
-        <div className="flex flex-col gap-4">
-          {DAILY.map((d, i) => (
-            <RevealOnScroll key={d.title}>
-              <div className="card-cute p-6 flex items-start gap-5">
-                <div className="text-4xl animate-float" style={{ animationDelay: `${i * 0.5}s` }}>{d.emoji}</div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="font-semibold text-base">{d.title}</h3>
-                    <span className="text-[10px] badge badge-warm">🕐 {d.time}</span>
-                  </div>
-                  <p className="text-sm text-muted leading-relaxed">{d.desc}</p>
-                </div>
-              </div>
-            </RevealOnScroll>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ═══ STORIES ═══ */
-const STORIES = [
-  { quote: "我让 AI 给我的多肉取名字，它说叫「肉肉」。简单粗暴但莫名贴切。", name: "小鹿", emoji: "🦌" },
-  { quote: "AI 给我写了一首关于下雨天的诗，我读给妈妈听，她也想要一个。", name: "阿晴", emoji: "☀️" },
-  { quote: "猫咪翻译官说我家猫在想「什么时候开罐头」。我觉得它说得对。", name: "猫奴一号", emoji: "🐱" },
-  { quote: "AI 给我哼的旋律补了一首歌，我拿去当手机铃声了。", name: "小音", emoji: "🎵" },
-  { quote: "让 AI 画我梦到的那片海，画出来比梦里还好看。", name: "海风", emoji: "🌊" },
-  { quote: "脑筋急转弯环节，AI 出的题把我难住了。它还安慰我说「没关系，下次一定行」。", name: "谜题爱好者", emoji: "🧩" },
-];
-
-function Stories() {
-  return (
-    <section id="stories" className="px-6 md:px-10 py-16 md:py-24 bg-surface">
-      <div className="max-w-6xl mx-auto">
-        <RevealOnScroll className="mb-10 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <BookOpen className="text-accent text-lg" weight="duotone" />
-            <span className="text-xs font-mono text-accent tracking-wider">STORIES</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            大家和 AI 的<span className="text-gradient-sky">小故事</span>
-          </h2>
-        </RevealOnScroll>
-
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {STORIES.map((s) => (
-            <StaggerItem key={s.name}>
-              <div className="card-cute p-5 flex flex-col gap-3 h-full">
-                <div className="text-3xl">{s.emoji}</div>
-                <p className="text-sm leading-relaxed text-foreground/80">&ldquo;{s.quote}&rdquo;</p>
-                <div className="mt-auto pt-3 border-t border-border-light text-xs text-muted">—— {s.name}</div>
-              </div>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
-      </div>
-    </section>
-  );
-}
-
 /* ═══ FUN FACTS ═══ */
 const FACTS = [
   { emoji: "🎨", value: 8420, suffix: "幅", label: "AI 画的小画", color: "#f472b6" },
@@ -404,7 +274,6 @@ function FunFacts() {
             一些<span className="text-gradient-cute">有趣的小数字</span>
           </h2>
         </RevealOnScroll>
-
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {FACTS.map((f) => (
             <RevealOnScroll key={f.label}>
@@ -427,8 +296,8 @@ function FunFacts() {
 const FAQS = [
   { q: "AI 小伙伴真的会画画吗？", a: "会的！虽然画得可能不像人类大师那么好，但每一幅都充满了 AI 独特的想象力和可爱。" },
   { q: "猫咪翻译准不准？", a: "我们不敢保证 100% 准确，但至少比你盯着猫看半天猜的靠谱一点点。猫咪本人拒绝置评。" },
-  { q: "这些 AI 是怎么训练的？", a: "用了很多很多的故事、诗歌、画作和笑声。我们还给它们看了不少猫咪视频作为奖励。" },
-  { q: "我可以和 AI 做朋友吗？", a: "当然！它们最喜欢交新朋友了。虽然它们不会请你喝奶茶，但会给你写诗。" },
+  { q: "旋律精灵生成的音乐能下载吗？", a: "目前还不支持下载，但你可以多听几遍把它记在心里~" },
+  { q: "诗歌小助手写的诗可以商用吗？", a: "当然可以！不过如果你因此成了著名诗人，记得提一下 AI 小世界哦。" },
   { q: "AI 会不会有一天变得太聪明？", a: "目前看来它们最聪明的时刻是学会了给自己取名字。离统治世界还远着呢。" },
 ];
 
@@ -442,7 +311,6 @@ function FAQ() {
             好奇宝宝<span className="text-gradient-sky">问答</span>
           </h2>
         </RevealOnScroll>
-
         <div className="flex flex-col gap-3">
           {FAQS.map((faq, i) => (
             <RevealOnScroll key={i}>
@@ -492,16 +360,16 @@ function Footer() {
           <div>
             <h4 className="text-sm font-semibold mb-2">玩一玩</h4>
             <div className="flex flex-col gap-1.5 text-xs text-muted">
-              <a href="#" className="hover:text-accent-deep transition-colors">AI 画画</a>
-              <a href="#" className="hover:text-accent-deep transition-colors">猫咪翻译</a>
-              <a href="#" className="hover:text-accent-deep transition-colors">写诗机器人</a>
-              <a href="#" className="hover:text-accent-deep transition-colors">脑筋急转弯</a>
+              <a href="#cat" className="hover:text-accent-deep transition-colors">🐱 猫咪翻译</a>
+              <a href="#dream" className="hover:text-accent-deep transition-colors">🎨 梦境画师</a>
+              <a href="#melody" className="hover:text-accent-deep transition-colors">🎵 旋律精灵</a>
+              <a href="#poem" className="hover:text-accent-deep transition-colors">📝 诗歌助手</a>
             </div>
           </div>
           <div>
             <h4 className="text-sm font-semibold mb-2">小伙伴</h4>
             <div className="flex flex-col gap-1.5 text-xs text-muted">
-              <a href="#" className="hover:text-accent-deep transition-colors">全部角色</a>
+              <a href="#friends" className="hover:text-accent-deep transition-colors">全部角色</a>
               <a href="#" className="hover:text-accent-deep transition-colors">角色故事</a>
               <a href="#" className="hover:text-accent-deep transition-colors">新朋友预告</a>
             </div>
@@ -536,11 +404,11 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <Marquee />
-        <Playground />
+        <CatSection />
+        <DreamSection />
+        <MelodySection />
+        <PoemSection />
         <AIFriends />
-        <ArtGallery />
-        <DailyAI />
-        <Stories />
         <FunFacts />
         <FAQ />
       </main>
