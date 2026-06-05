@@ -8,12 +8,10 @@ import {
   Rss,
   Plus,
   Minus,
+  ArrowRight,
 } from "@phosphor-icons/react";
 import { TerminalTypewriter } from "@/components/TerminalTypewriter";
-import { CatTranslator } from "@/components/CatTranslator";
-import { DreamPainter } from "@/components/DreamPainter";
-import { MelodySpirit } from "@/components/MelodySpirit";
-import { PoemHelper } from "@/components/PoemHelper";
+import Link from "next/link";
 import {
   RevealOnScroll,
   CountUp,
@@ -65,10 +63,10 @@ function Hero() {
         <TerminalTypewriter />
 
         <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
-          <a href="#cat" className="badge badge-cute hover:scale-105 transition-transform cursor-pointer">🐱 猫咪翻译官</a>
-          <a href="#dream" className="badge badge-mint hover:scale-105 transition-transform cursor-pointer">🎨 梦境画师</a>
-          <a href="#melody" className="badge badge-warm hover:scale-105 transition-transform cursor-pointer">🎵 旋律精灵</a>
-          <a href="#poem" className="badge badge-lavender hover:scale-105 transition-transform cursor-pointer">📝 诗歌小助手</a>
+          <Link href="/cat" className="badge badge-cute hover:scale-105 transition-transform cursor-pointer">🐱 猫咪翻译官</Link>
+          <Link href="/dream" className="badge badge-mint hover:scale-105 transition-transform cursor-pointer">🎨 梦境画师</Link>
+          <Link href="/melody" className="badge badge-warm hover:scale-105 transition-transform cursor-pointer">🎵 旋律精灵</Link>
+          <Link href="/poem" className="badge badge-lavender hover:scale-105 transition-transform cursor-pointer">📝 诗歌小助手</Link>
         </div>
       </div>
 
@@ -117,10 +115,17 @@ function Marquee() {
 }
 
 /* ═══ FEATURE SECTIONS ═══ */
+const GAMES = [
+  { id: "cat", emoji: "🐱", title: "猫咪", accent: "翻译官", desc: "选择你家猫咪的行为，让小伙伴帮你翻译它在想什么~", href: "/cat", gradient: "text-gradient-cute", bg: "from-pink-50 to-rose-50", border: "border-pink-200/60" },
+  { id: "dream", emoji: "🎨", title: "梦境", accent: "画师", desc: "描述你的梦，小伙伴帮你画出来。多种画风任你挑选~", href: "/dream", gradient: "text-gradient-sky", bg: "from-sky-50 to-blue-50", border: "border-sky-200/60" },
+  { id: "melody", emoji: "🎵", title: "旋律", accent: "精灵", desc: "选择心情和节奏，小伙伴为你谱写一段专属旋律~", href: "/melody", gradient: "text-gradient-cute", bg: "from-amber-50 to-orange-50", border: "border-amber-200/60" },
+  { id: "poem", emoji: "📝", title: "诗歌", accent: "小助手", desc: "给一个词，小伙伴还你一首诗。现代诗、古风、俳句随你选~", href: "/poem", gradient: "text-gradient-sky", bg: "from-violet-50 to-purple-50", border: "border-violet-200/60" },
+];
+
 function GamesGrid() {
   return (
     <section className="px-6 md:px-10 py-16 md:py-24 bg-surface">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <RevealOnScroll className="mb-10 text-center">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             来<span className="text-gradient-warm">玩一玩</span>
@@ -128,58 +133,26 @@ function GamesGrid() {
           <p className="text-muted mt-2 text-sm">每个小伙伴都有自己的拿手好戏，点进去试试~</p>
         </RevealOnScroll>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <RevealOnScroll>
-            <div id="cat" className="card-cute p-6 h-full">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-2xl">🐱</span>
-                <h3 className="text-xl font-bold tracking-tight">
-                  猫咪<span className="text-gradient-cute">翻译官</span>
-                </h3>
-              </div>
-              <p className="text-muted text-sm mb-4">选择你家猫咪的行为，让小伙伴帮你翻译它在想什么~</p>
-              <CatTranslator />
-            </div>
-          </RevealOnScroll>
-
-          <RevealOnScroll>
-            <div id="dream" className="card-cute p-6 h-full">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-2xl">🎨</span>
-                <h3 className="text-xl font-bold tracking-tight">
-                  梦境<span className="text-gradient-sky">画师</span>
-                </h3>
-              </div>
-              <p className="text-muted text-sm mb-4">描述你的梦，小伙伴帮你画出来。多种画风任你挑选~</p>
-              <DreamPainter />
-            </div>
-          </RevealOnScroll>
-
-          <RevealOnScroll>
-            <div id="melody" className="card-cute p-6 h-full">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-2xl">🎵</span>
-                <h3 className="text-xl font-bold tracking-tight">
-                  旋律<span className="text-gradient-cute">精灵</span>
-                </h3>
-              </div>
-              <p className="text-muted text-sm mb-4">选择心情和节奏，小伙伴为你谱写一段专属旋律~</p>
-              <MelodySpirit />
-            </div>
-          </RevealOnScroll>
-
-          <RevealOnScroll>
-            <div id="poem" className="card-cute p-6 h-full">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-2xl">📝</span>
-                <h3 className="text-xl font-bold tracking-tight">
-                  诗歌<span className="text-gradient-sky">小助手</span>
-                </h3>
-              </div>
-              <p className="text-muted text-sm mb-4">给一个词，小伙伴还你一首诗。现代诗、古风、俳句随你选~</p>
-              <PoemHelper />
-            </div>
-          </RevealOnScroll>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {GAMES.map((g) => (
+            <RevealOnScroll key={g.id}>
+              <Link href={g.href} className="group block">
+                <div className={`card-cute p-6 h-full bg-gradient-to-br ${g.bg} border ${g.border}`}>
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="text-3xl">{g.emoji}</span>
+                    <h3 className="text-xl font-bold tracking-tight">
+                      {g.title}<span className={g.gradient}>{g.accent}</span>
+                    </h3>
+                  </div>
+                  <p className="text-muted text-sm mb-4">{g.desc}</p>
+                  <div className="flex items-center gap-1 text-sm font-medium text-accent-deep opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span>开始玩</span>
+                    <ArrowRight className="text-sm" weight="bold" />
+                  </div>
+                </div>
+              </Link>
+            </RevealOnScroll>
+          ))}
         </div>
       </div>
     </section>
@@ -336,10 +309,10 @@ function Footer() {
           <div>
             <h4 className="text-sm font-semibold mb-2">玩一玩</h4>
             <div className="flex flex-col gap-1.5 text-xs text-muted">
-              <a href="#cat" className="hover:text-accent-deep transition-colors">🐱 猫咪翻译</a>
-              <a href="#dream" className="hover:text-accent-deep transition-colors">🎨 梦境画师</a>
-              <a href="#melody" className="hover:text-accent-deep transition-colors">🎵 旋律精灵</a>
-              <a href="#poem" className="hover:text-accent-deep transition-colors">📝 诗歌助手</a>
+              <Link href="/cat" className="hover:text-accent-deep transition-colors">🐱 猫咪翻译</Link>
+              <Link href="/dream" className="hover:text-accent-deep transition-colors">🎨 梦境画师</Link>
+              <Link href="/melody" className="hover:text-accent-deep transition-colors">🎵 旋律精灵</Link>
+              <Link href="/poem" className="hover:text-accent-deep transition-colors">📝 诗歌助手</Link>
             </div>
           </div>
           <div>
