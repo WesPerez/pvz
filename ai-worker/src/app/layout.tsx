@@ -21,8 +21,8 @@ const notoMono = Noto_Sans_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AIWorker - 让 AI 替你打工",
-  description: "AI 智能办公助手，报告生成、邮件代写、会议摘要，把重复劳动交给 AI，把时间还给自己。",
+  title: "奇妙小角落 - 来玩点有趣的",
+  description: "住着一群可爱小伙伴的奇妙角落，画画、写诗、讲笑话，偶尔还会犯点小迷糊。",
 };
 
 export default function RootLayout({
