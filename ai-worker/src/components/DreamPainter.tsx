@@ -18,7 +18,7 @@ export function DreamPainter() {
 
   const canGenerate = description.trim().length >= 2 && selectedStyle !== null;
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (!canGenerate) return;
     const style = STYLES.find((s) => s.id === selectedStyle)!;
     const fullPrompt = description.trim() + style.suffix;
@@ -26,26 +26,23 @@ export function DreamPainter() {
 
     setLoading(true);
     setError(null);
+    if (imageUrl) URL.revokeObjectURL(imageUrl);
     setImageUrl(null);
 
-    const img = new Image();
-    img.onload = () => {
-      setImageUrl(url);
-      setLoading(false);
-    };
-    img.onerror = () => {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("生成失败");
+      const blob = await res.blob();
+      setImageUrl(URL.createObjectURL(blob));
+    } catch {
       setError("生成失败，请稍后重试");
+    } finally {
       setLoading(false);
-    };
-    img.src = url;
+    }
   };
 
   return (
     <div className="card-cute" style={{ padding: 24 }}>
-      <h2 style={{ fontSize: 20, fontWeight: 700, color: "#1e3a5f", marginBottom: 16 }}>
-        🎨 梦境画师
-      </h2>
-
       <input
         type="text"
         value={description}
@@ -55,8 +52,8 @@ export function DreamPainter() {
           width: "100%",
           padding: "10px 14px",
           borderRadius: 12,
-          border: "1.5px solid #c7ddf5",
-          background: "#f0f7ff",
+          border: "1.5px solid #fae8e8",
+          background: "#fef9f5",
           fontSize: 14,
           outline: "none",
           marginBottom: 14,
@@ -72,9 +69,9 @@ export function DreamPainter() {
             style={{
               padding: "6px 14px",
               borderRadius: 16,
-              border: selectedStyle === s.id ? "2px solid #f472b6" : "1.5px solid #c7ddf5",
+              border: selectedStyle === s.id ? "2px solid #f472b6" : "1.5px solid #fae8e8",
               background: selectedStyle === s.id ? "#fce7f3" : "rgba(255,255,255,0.75)",
-              color: selectedStyle === s.id ? "#be185d" : "#1e3a5f",
+              color: selectedStyle === s.id ? "#be185d" : "#3d2c2c",
               fontSize: 13,
               cursor: "pointer",
               fontWeight: selectedStyle === s.id ? 600 : 400,
@@ -94,7 +91,7 @@ export function DreamPainter() {
           padding: "10px 0",
           borderRadius: 14,
           border: "none",
-          background: canGenerate && !loading ? "#3b82f6" : "#93c5fd",
+          background: canGenerate && !loading ? "#ec4899" : "#f9a8d4",
           color: "#fff",
           fontSize: 15,
           fontWeight: 600,
@@ -102,13 +99,13 @@ export function DreamPainter() {
           marginBottom: 16,
         }}
       >
-        生成画作
+        {loading ? "正在画画..." : "生成画作"}
       </button>
 
       {loading && (
-        <div style={{ textAlign: "center", padding: "24px 0", fontSize: 16, color: "#1e3a5f" }}>
+        <div style={{ textAlign: "center", padding: "24px 0", fontSize: 16, color: "#3d2c2c" }}>
           <span style={{ animation: "spin 1s linear infinite", display: "inline-block" }}>🎨</span>{" "}
-          AI 正在画画...
+          小伙伴正在画画...
         </div>
       )}
 
@@ -135,9 +132,9 @@ export function DreamPainter() {
               style={{
                 padding: "8px 20px",
                 borderRadius: 12,
-                border: "1.5px solid #c7ddf5",
+                border: "1.5px solid #fae8e8",
                 background: "rgba(255,255,255,0.75)",
-                color: "#1e3a5f",
+                color: "#3d2c2c",
                 fontSize: 13,
                 cursor: "pointer",
               }}
